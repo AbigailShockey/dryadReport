@@ -4,7 +4,7 @@ These scripts generate a report using R markdown and the outputs of [Dryad](http
 Usage:
 
 ```
-render_report.R species number_of_sequences snp_distance_matrix core_genome_tree
+render_report.R 'species' number_of_sequences snp_distance_matrix core_genome_tree
 
   species                 name of species analyzed
   number_of_sequences     number of sequences analyzed
