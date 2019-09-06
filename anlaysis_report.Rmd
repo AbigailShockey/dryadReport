@@ -1,0 +1,97 @@
+---
+title: "Sequencing Analysis Report"
+author: "Data analysis performed by Kelsey Florek and report template written by Abigail Shockey"
+date: "`r paste(Sys.Date())`"
+output:
+    html_document:
+        theme: paper
+---
+```{r include=FALSE}
+
+## Libraries
+library(superheat)
+library(ggtree)
+library(phangorn)
+#library(devtools)
+#devtools::install_github("rlbarter/superheat")
+
+## Report variables (change these accordingly)
+#species <- "Streptococcus pyogenes"
+date <- Sys.Date()
+#num.iso <- 6
+
+## Figure size
+knitr::opts_chunk$set(fig.width=9, fig.height=7) 
+
+```
+
+
+### *`r species`* Analysis
+
+The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has been completed and this is
+what we were able to determine:
+
+Several of the isolates 2019004317, 2019004004, 2019004318, and
+2019004002 all seem to be closely related. There appears to be zero SNP differences between the
+isolates, and they cluster close together when examining the core set of genes shared across the
+isolates. The figures below outline these results.
+
+### SNP Heatmap
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="left")
+set.seed(123)
+#snp.mat <- read.table("snp_distance_matrix.tsv", header = T)
+colnames(snp.mat) <- row.names(snp.mat)
+
+mat_data <- as.matrix(snp.mat)
+
+# set the text colors 
+# identify all scaled values that fall below -0.3
+snp.col <- scale(mat_data) < .0000001
+# set all values that satisfy the condition to "white"
+snp.col <- gsub("TRUE", "white", snp.col)
+# set all values that do not satisfy the condition to "black"
+snp.col <- gsub("FALSE", "black", snp.col)
+# convert to matrix
+snp.col <- matrix(snp.col, ncol = ncol(mat_data))
+
+superheat(mat_data,
+          pretty.order.rows = TRUE,
+          pretty.order.cols = TRUE,
+          row.dendrogram = TRUE,
+          left.label.col = "white",
+          bottom.label.col = "white",
+          bottom.label.text.angle = 90,
+        #  heat.pal=pal,
+          X.text = round(mat_data, 1),
+          X.text.size = 4,
+          left.label.text.size = 4,
+          bottom.label.text.size = 4,
+          left.label.size = .75,
+          bottom.label.size = .75,
+          X.text.col = snp.col,
+         # extreme.values.na = FALSE,
+          legend.num.ticks = 4,
+          grid.hline = FALSE,
+          grid.vline = FALSE,
+          padding = 0,
+          legend.vspace = 0.05)
+```
+
+### Core-genome phylogenetic tree
+
+The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#,fig.height = 20, fig.width = 20
+tree <-  read.tree(nwk)
+mpt <- midpoint(tree)
+ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_tiplab() + xlim(-.0001, .006) + geom_treescale(offset = .1)
+```
+
+### Methods
+
+The figures shown here were generated using sequence data processed with our [data analysis pipeline](https://github.com/k-florek/dryad), Dryad. SNPs were called using the Center for Food Safety and Applied Nutrition ([CFSAN](https://github.com/CFSAN-Biostatistics/snp-pipeline)) SNP pipeline within Dryad. The core-genome tree was generated using an alignment of coding regions shared across 99% of
+isolates in your sample. The tree was generated using a maximum-likelihood method with the GTR+G substitution model and bootstrapped with 1000 replicates.
+
