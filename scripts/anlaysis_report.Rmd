@@ -1,6 +1,6 @@
 ---
 title: "Sequencing Analysis Report"
-author: "Data analysis performed by Kelsey Florek and report template written by Abigail Shockey"
+author: "Report template written by Abigail Shockey"
 date: "`r paste(Sys.Date())`"
 output:
     html_document:
@@ -26,11 +26,6 @@ knitr::opts_chunk$set(fig.width=9, fig.height=7)
 
 The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has been completed and this is
 what we were able to determine:
-
-Several of the isolates 2019004317, 2019004004, 2019004318, and
-2019004002 all seem to be closely related. There appears to be zero SNP differences between the
-isolates, and they cluster close together when examining the core set of genes shared across the
-isolates. The figures below outline these results.
 
 ### SNP Heatmap
 
