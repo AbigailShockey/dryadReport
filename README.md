@@ -1,5 +1,5 @@
 # Sequencing Analysis Report
-These scripts generate a sequencing anlysis report using R and Docker
+These scripts generate a report using R markdown and the outputs of [Dryad](https://github.com/k-florek/dryad)
 
 Usage:
 
