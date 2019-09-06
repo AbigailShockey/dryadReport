@@ -36,7 +36,6 @@ colnames(snp.mat) <- row.names(snp.mat)
 mat_data <- as.matrix(snp.mat)
 
 # set the text colors 
-# identify all scaled values that fall below -0.3
 snp.col <- scale(mat_data) < .0000001
 # set all values that satisfy the condition to "white"
 snp.col <- gsub("TRUE", "white", snp.col)
