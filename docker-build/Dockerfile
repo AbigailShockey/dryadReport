@@ -2,7 +2,6 @@ FROM rocker/verse
 
 # metadata
 LABEL base.image="rocker/verse"
-LABEL version="1"
 
 RUN R -e "install.packages('ape', repos = 'http://cran.us.r-project.org')" && \
   R -e "install.packages('tidytree', repos = 'http://cran.us.r-project.org')" && \
