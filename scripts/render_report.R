@@ -10,4 +10,4 @@ snp.mat <- read.table(args[3], header = T)
 nwk <- args[4]
 
 # Render the report
-render('data/anlaysis_report.Rmd', output_file='analysis_report.html')
+render('anlaysis_report.Rmd', output_file='analysis_report.html')
