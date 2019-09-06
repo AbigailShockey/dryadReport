@@ -12,13 +12,9 @@ output:
 library(superheat)
 library(ggtree)
 library(phangorn)
-#library(devtools)
-#devtools::install_github("rlbarter/superheat")
 
 ## Report variables (change these accordingly)
-#species <- "Streptococcus pyogenes"
 date <- Sys.Date()
-#num.iso <- 6
 
 ## Figure size
 knitr::opts_chunk$set(fig.width=9, fig.height=7) 
@@ -41,7 +37,6 @@ isolates. The figures below outline these results.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align="left")
 set.seed(123)
-#snp.mat <- read.table("snp_distance_matrix.tsv", header = T)
 colnames(snp.mat) <- row.names(snp.mat)
 
 mat_data <- as.matrix(snp.mat)
@@ -84,7 +79,6 @@ superheat(mat_data,
 The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-#,fig.height = 20, fig.width = 20
 tree <-  read.tree(nwk)
 mpt <- midpoint(tree)
 ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_tiplab() + xlim(-.0001, .006) + geom_treescale(offset = .1)
