@@ -1,2 +1,2 @@
-# sequencingAnalysisReport
-Generate a sequencing analysis report using R and Docker
+# Sequence Analysis Report
+These scripts generate a sequencing anlysis report using R and Docker
