@@ -1,5 +1,5 @@
 # Dryad Sequencing Analysis Report
-These scripts generate a report using R Markdown and the outputs of [Dryad](https://github.com/k-florek/dryad)
+These scripts generate a sequencing analysis report using R Markdown and the outputs of [Dryad](https://github.com/k-florek/dryad)
 
 Usage:
 
