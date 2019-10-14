@@ -16,7 +16,12 @@ RUN apt-get update && \
   libxml2 \
   libxml2-dev \
   pandoc \
-  pandoc-citeproc
+  pandoc-citeproc\
+  wget\
+  texlive-latex-base\
+  texlive-fonts-recommended\
+  texlive-latex-recommended\
+  texlive-latex-extra
 
 # add keys and ppa; update sources; install latest version of R
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
@@ -27,11 +32,32 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
   r-base-dev
 
 # install R packages
-RUN R -e "install.packages(c('httr','usethis','covr','xml2','roxygen2','rversions',\
-  'ggplot2','knitr','rmarkdown','ape','plyr','tidytree','phangorn','BiocManager',\
-  'devtools','ggimage','ade4','adegenet','tidyverse'), repos = 'http://cran.us.r-project.org')" && \
+RUN R -e "install.packages(c( \
+  'httr',\
+  'usethis',\
+  'covr',\
+  'xml2',\
+  'roxygen2',\
+  'rversions',\
+  'ggplot2',\
+  'knitr',\
+  'rmarkdown',\
+  'ape',\
+  'plyr',\
+  'tidytree',\
+  'phangorn',\
+  'BiocManager',\
+  'devtools',\
+  'ggimage',\
+  'ade4',\
+  'adegenet',\
+  'tidyverse',\
+  'tinytex'), repos = 'http://cran.us.r-project.org')" && \
   R -e "BiocManager::install('ggtree')" && \
-  R -e "devtools::install_github('rlbarter/superheat')"
+  R -e "devtools::install_github('rlbarter/superheat')" && \
+  R -e "tinytex::install_tinytex()"
 
-RUN mkdir /data
+COPY ./scripts /scripts
+
+ENV PATH "/scripts:$PATH"
 WORKDIR /data
