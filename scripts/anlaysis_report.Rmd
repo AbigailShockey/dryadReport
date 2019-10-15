@@ -10,16 +10,33 @@ mainfont: Roboto
 sansfont: Roboto
 urlcolor: badgerred
 ---
+<!-- define color and adjust lengths for header and footer-->
 \definecolor{badgerred}{RGB}{197,5,12}
 \addtolength{\headheight}{3.0cm}
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\footskip}{-0.225in}
+
+<!-- % setup header -->
 \pagestyle{fancy}
-\lhead{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
-\rhead{
-\Huge Sequencing Analysis Report\\
-\Large `r paste(Sys.Date())`
-}
+\fancyhf{}
+
+<!-- header content -->
+\fancyhead[L]{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
+\fancyhead[R]{\Huge Sequencing Analysis Report\\
+\Large `r paste(Sys.Date())`}
+
+<!-- create red header line -->
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\headrule}{\hbox to\headwidth{%
+    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
+
+<!-- footer content -->
+\fancyfoot[C]{For research use only, not for clinical use.}
+\fancyfoot[R]{\thepage}
+
+<!-- create red footer line -->
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\footrule}{\hbox to\headwidth{%
     \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
 
 ```{r include=FALSE}
@@ -92,7 +109,7 @@ The core-genome is the core set of genes shared across all isolates in the sampl
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 tree <-  read.tree(nwk)
 mpt <- midpoint(tree)
-ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_tiplab() + xlim(-.0001, .006) + geom_treescale(offset = .1)
+ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_tiplab() + xlim(-.0001, .009) + geom_treescale(offset = .1)
 ```
 
 ### Methods
