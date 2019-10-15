@@ -16,4 +16,4 @@ nwk <- file_path_as_absolute(args[5])
 
 
 # Render the report
-render('anlaysis_report.Rmd', output_file='analysis_report.pdf')
+render('analysis_report.Rmd', output_file='analysis_report.pdf')

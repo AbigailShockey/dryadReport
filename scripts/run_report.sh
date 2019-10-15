@@ -59,6 +59,6 @@ if [ -z $species ] || [ -z $n_isolates ]; then
   exit 1
 fi
 
-cp -u /scripts/anlaysis_report.Rmd $output_path
+cp -u /scripts/analysis_report.Rmd $output_path
 
 Rscript /scripts/render_report.R "$output_path" "$species" "$n_isolates" "$snp_table" "$nwk_tree"
