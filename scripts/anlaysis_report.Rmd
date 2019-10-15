@@ -1,12 +1,29 @@
 ---
-title: "Sequencing Analysis Report"
-author: "Report template written by Abigail Shockey"
-date: "`r paste(Sys.Date())`"
-output: pdf_document
+output:
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+    - \usepackage{fancyhdr}
+    - \usepackage{fontspec}
+    - \usepackage{xcolor}
+mainfont: Roboto
+sansfont: Roboto
+urlcolor: badgerred
 ---
+\definecolor{badgerred}{RGB}{197,5,12}
+\addtolength{\headheight}{3.0cm}
+\pagestyle{fancy}
+\lhead{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
+\rhead{
+\Huge Sequencing Analysis Report\\
+\Large `r paste(Sys.Date())`
+}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
 
 ```{r include=FALSE}
-
+#testing
 ## Libraries
 library(superheat)
 library(ggtree)
@@ -25,6 +42,8 @@ The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has 
 what we were able to determine:
 
 ### SNP Heatmap
+
+The number of Single Nucleotide Polymorphisms (SNPs) between each sample is shown on the heatmap below. There is no hard and fast rule for determining how many SNPs are needed to classify an outbreak. Generally it is best to look for patterns in the data between both the SNP data and the core-genome tree.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align="left")
@@ -64,10 +83,11 @@ superheat(mat_data,
           padding = 0,
           legend.vspace = 0.05)
 ```
+\newpage
 
 ### Core-genome phylogenetic tree
 
-The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree.
+The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree. The numbers in boxes are the bootstrap values, a value greater than 95 indicates a robustly supported grouping of isolates.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 tree <-  read.tree(nwk)
@@ -77,5 +97,4 @@ ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_
 
 ### Methods
 
-The figures shown here were generated using sequence data processed with our [data analysis pipeline](https://github.com/k-florek/dryad), Dryad. SNPs were called using the Center for Food Safety and Applied Nutrition ([CFSAN](https://github.com/CFSAN-Biostatistics/snp-pipeline)) SNP pipeline within Dryad. The core-genome tree was generated using an alignment of coding regions shared across 99% of
-isolates in your sample. The tree was generated using a maximum-likelihood method with the GTR+G substitution model and bootstrapped with 1000 replicates.
+The figures shown here were generated using sequence data processed with our data analysis pipeline, Dryad ([https://github.com/k-florek/dryad](https://github.com/k-florek/dryad)). SNPs were called using the Center for Food Safety and Applied Nutrition ([CFSAN](https://github.com/CFSAN-Biostatistics/snp-pipeline)) SNP pipeline within Dryad. The core-genome tree was generated using an alignment of coding regions shared across 99% of isolates. The tree was generated using a maximum-likelihood method with the GTR+G substitution model and bootstrapped with 1000 replicates. Report generated using R and designed by Abigail Shockey.

@@ -21,7 +21,9 @@ RUN apt-get update && \
   texlive-latex-base\
   texlive-fonts-recommended\
   texlive-latex-recommended\
-  texlive-latex-extra
+  texlive-latex-extra\
+  texlive-xetex\
+  fonts-roboto
 
 # add keys and ppa; update sources; install latest version of R
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
@@ -58,6 +60,8 @@ RUN R -e "install.packages(c( \
   R -e "tinytex::install_tinytex()"
 
 COPY ./scripts /scripts
+COPY ./assets /assets
+RUN chmod -R 777 /assets
 
 ENV PATH "/scripts:$PATH"
 WORKDIR /data

@@ -46,7 +46,7 @@ while (( "$#" )); do
       shift
       break
       ;;
-    -*|--*=) # unsupported flags
+    -*|--*=|*) # unsupported flags
       echo "Error: Unsupported flag $1" >&2
       usage
       exit 1
@@ -60,4 +60,5 @@ if [ -z $species ] || [ -z $n_isolates ]; then
 fi
 
 cp -u /scripts/anlaysis_report.Rmd $output_path
-Rscript /scripts/render_report.R $output_path $species $n_isolates $snp_table $nwk_tree
+
+Rscript /scripts/render_report.R "$output_path" "$species" "$n_isolates" "$snp_table" "$nwk_tree"
