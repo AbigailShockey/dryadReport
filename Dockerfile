@@ -54,8 +54,10 @@ RUN R -e "install.packages(c( \
   'ade4',\
   'adegenet',\
   'tidyverse',\
-  'tinytex'), repos = 'http://cran.us.r-project.org')" && \
-  R -e "BiocManager::install('ggtree')" && \
+  'tinytex',\
+  'tidyr',\
+  'reshape2'), repos = 'http://cran.us.r-project.org')" && \
+  R -e "devtools::install_github('AbigailShockey/ggtree')" && \
   R -e "devtools::install_github('rlbarter/superheat')" && \
   R -e "tinytex::install_tinytex()"
 
