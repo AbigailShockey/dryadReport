@@ -42,14 +42,17 @@ urlcolor: badgerred
 ```{r include=FALSE}
 #testing
 ## Libraries
-library(superheat)
 library(ggtree)
+library(plyr)
+library(tidyr)
 library(phangorn)
+library(reshape2)
+library(ggplot2)
 
 date <- Sys.Date()
 
 ## Figure size
-knitr::opts_chunk$set(fig.width=9, fig.height=7)
+knitr::opts_chunk$set(out.width="7in", out.height="8in", fig.align="left")
 
 ```
 
@@ -60,57 +63,123 @@ what we were able to determine:
 
 ### SNP Heatmap
 
-The number of Single Nucleotide Polymorphisms (SNPs) between each sample is shown on the heatmap below. There is no hard and fast rule for determining how many SNPs are needed to classify an outbreak. Generally it is best to look for patterns in the data between both the SNP data and the core-genome tree.
+The number of Single Nucleotide Polymorphisms (SNPs) between each sample is shown on the heatmap below. There is no hard and fast rule for determining how many SNPs are needed to classify an outbreak. Generally it is best to look for patterns in the data between the SNP data and the core-genome tree.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align="left")
+
 set.seed(123)
-colnames(snp.mat) <- row.names(snp.mat)
 
-mat_data <- as.matrix(snp.mat)
+tree <-  read.tree(nwk)
+mpt <- midpoint(tree)
 
-# set the text colors
-snp.col <- scale(mat_data) < .0000001
-# set all values that satisfy the condition to "white"
-snp.col <- gsub("TRUE", "white", snp.col)
-# set all values that do not satisfy the condition to "black"
-snp.col <- gsub("FALSE", "black", snp.col)
-# convert to matrix
-snp.col <- matrix(snp.col, ncol = ncol(mat_data))
+colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
+colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
 
-superheat(mat_data,
-          pretty.order.rows = TRUE,
-          pretty.order.cols = TRUE,
-          row.dendrogram = TRUE,
-          left.label.col = "white",
-          bottom.label.col = "white",
-          bottom.label.text.angle = 90,
-        #  heat.pal=pal,
-          X.text = round(mat_data, 1),
-          X.text.size = 4,
-          left.label.text.size = 4,
-          bottom.label.text.size = 4,
-          left.label.size = .75,
-          bottom.label.size = .75,
-          X.text.col = snp.col,
-         # extreme.values.na = FALSE,
-          legend.num.ticks = 4,
-          grid.hline = FALSE,
-          grid.vline = FALSE,
-          padding = 0,
-          legend.vspace = 0.05)
+mpt.fort <- fortify(mpt)
+mpt.tip <- mpt.fort[which(mpt.fort$isTip == TRUE),]
+mpt.ord <- mpt.tip$label[order(mpt.tip$y)]
+snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
+
+snp.mat$ID <- rownames(snp.mat)
+m.snp.mat <- melt(snp.mat)
+colnames(m.snp.mat) <- c("tip","feature","value")
+
+m.snp.mat$clr <- NA
+m.snp.mat$clr[which(m.snp.mat$value < mean(m.snp.mat$value, na.rm = T) & m.snp.mat$value > 0)] <- "white"
+m.snp.mat$clr[which(m.snp.mat$value > (max(m.snp.mat$value)/2))] <- "black"
+m.snp.mat$clr[which(m.snp.mat$value == 0)] <- "black"
+
+m.snp.mat$tip <- factor(m.snp.mat$tip, levels=c(mpt.ord))
+
+t <-ggplot(data = m.snp.mat, aes(x=feature, y=tip, fill=value)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(limits= c(1,(max(m.snp.mat$value)+1)), na.value = "white", name = "SNPs", guide = "colourbar") +
+  geom_text(aes(label = value,color=factor(clr)), size = 1.2) + 
+  scale_color_manual(values = c("black", "white"), guide = FALSE) +
+  theme(axis.text.x = element_text(angle = 90,hjust = 1),
+        axis.text = element_text(size = 3.2, colour = "black"),
+        axis.title = element_blank(),
+        axis.line = element_blank(),
+        axis.ticks = element_blank(),
+        axis.ticks.length = unit(0, "cm"),
+        panel.background = element_blank(),
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.margin = unit(c(0,0,0,0), "mm"),
+        legend.position="bottom",
+        legend.margin=margin(0,0,0,0),
+        legend.box="horizontal", 
+        legend.text = element_text(size = 4),
+        legend.title = element_text(size = 5)) + 
+  guides(fill = guide_colourbar(title.position="top", 
+                                title.hjust = 0.5, barheight = .5, barwidth = 5))
+t
+
 ```
 \newpage
 
 ### Core-genome phylogenetic tree
 
-The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree. The numbers in boxes are the bootstrap values, a value greater than 95 indicates a robustly supported grouping of isolates.
+The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree. The numbers are the bootstrap values, a value greater than 95 indicates a robustly supported grouping of isolates.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-tree <-  read.tree(nwk)
-mpt <- midpoint(tree)
-ggtree(mpt) + geom_label2(aes(label=label, x = branch, subset = !isTip)) + geom_tiplab() + xlim(-.0001, .009) + geom_treescale(offset = .1)
+
+q <- ggtree(mpt, color = "grey", alpha = .5) + 
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip), vjust=-.5, size=1.25) +
+ #geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) + 
+  geom_tiplab(size=1, align=TRUE, linesize=.5, offset = .001) +
+  geom_treescale(offset = .2, fontsize = 1.5) + 
+  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+
+xmax <-  max(q$data$x)
+xmin <- -.0001
+q + xlim(xmin,(xmax+.003))
+
 ```
+\newpage
+
+## Core-genome phylogenetic tree and SNP heatmap
+
+```{r echo=FALSE, message=FALSE}
+
+gtree <- ggtree(mpt, size =.25)
+
+ymax <- max(gtree$data$y) + 1
+ymin <- min(gtree$data$y) - 7.5
+
+colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
+colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
+
+mpt.fort <- fortify(mpt)
+mpt.tip <- mpt.fort[which(mpt.fort$isTip == TRUE),]
+mpt.ord <- mpt.tip$label[order(mpt.tip$y)]
+snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
+
+gheatmap(gtree, snp.mat, width = 12,
+         cell_labels = TRUE,
+         font.size = 1,
+         cell_font_size = 1, 
+         hjust = 1,
+         offset = 0.008, 
+         colnames_angle = 90, 
+         rownames_angle = 0,
+         colnames_offset = 0,
+         rownames_offset = 0.003) + 
+  scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") + 
+  ylim(ymin,ymax) +
+  theme(plot.margin = unit(c(0,0,0,0), "mm"),
+        legend.position="bottom",
+        legend.margin=margin(0,0,0,0),
+        legend.box="horizontal", 
+        legend.text = element_text(size = 3),
+        legend.title = element_text(size = 4)) + 
+  guides(fill = guide_colourbar(title.position="top", 
+                                title.hjust = 0.5, barheight = .5, barwidth = 5))
+
+
+```
+
 
 ### Methods
 
