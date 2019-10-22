@@ -6,6 +6,7 @@ header-includes:
     - \usepackage{fancyhdr}
     - \usepackage{fontspec}
     - \usepackage{xcolor}
+    - \geometry{left=0.5in,right=0.5in}
 mainfont: Roboto
 sansfont: Roboto
 urlcolor: badgerred
@@ -22,7 +23,7 @@ urlcolor: badgerred
 
 <!-- header content -->
 \fancyhead[L]{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
-\fancyhead[R]{\Huge Sequencing Analysis Report\\
+\fancyhead[R]{\Huge Genomic Clustering Report\\
 \Large `r paste(Sys.Date())`}
 
 <!-- create red header line -->
@@ -52,14 +53,13 @@ library(ggplot2)
 date <- Sys.Date()
 
 ## Figure size
-knitr::opts_chunk$set(out.width="7in", out.height="8in", fig.align="left")
+knitr::opts_chunk$set(out.width="10in", out.height="8in", fig.align="left")
 
 ```
 
 ### *`r species`* Analysis
 
-The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has been completed and this is
-what we were able to determine:
+The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has been completed.
 
 ### SNP Heatmap
 
@@ -71,77 +71,6 @@ set.seed(123)
 
 tree <-  read.tree(nwk)
 mpt <- midpoint(tree)
-
-colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
-colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
-
-mpt.fort <- fortify(mpt)
-mpt.tip <- mpt.fort[which(mpt.fort$isTip == TRUE),]
-mpt.ord <- mpt.tip$label[order(mpt.tip$y)]
-snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
-
-snp.mat$ID <- rownames(snp.mat)
-m.snp.mat <- melt(snp.mat)
-colnames(m.snp.mat) <- c("tip","feature","value")
-
-m.snp.mat$clr <- NA
-m.snp.mat$clr[which(m.snp.mat$value < mean(m.snp.mat$value, na.rm = T) & m.snp.mat$value > 0)] <- "white"
-m.snp.mat$clr[which(m.snp.mat$value > (max(m.snp.mat$value)/2))] <- "black"
-m.snp.mat$clr[which(m.snp.mat$value == 0)] <- "black"
-
-m.snp.mat$tip <- factor(m.snp.mat$tip, levels=c(mpt.ord))
-
-t <-ggplot(data = m.snp.mat, aes(x=feature, y=tip, fill=value)) +
-  geom_tile(color = "white") +
-  scale_fill_viridis_c(limits= c(1,(max(m.snp.mat$value)+1)), na.value = "white", name = "SNPs", guide = "colourbar") +
-  geom_text(aes(label = value,color=factor(clr)), size = 1.2) + 
-  scale_color_manual(values = c("black", "white"), guide = FALSE) +
-  theme(axis.text.x = element_text(angle = 90,hjust = 1),
-        axis.text = element_text(size = 3.2, colour = "black"),
-        axis.title = element_blank(),
-        axis.line = element_blank(),
-        axis.ticks = element_blank(),
-        axis.ticks.length = unit(0, "cm"),
-        panel.background = element_blank(),
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        plot.margin = unit(c(0,0,0,0), "mm"),
-        legend.position="bottom",
-        legend.margin=margin(0,0,0,0),
-        legend.box="horizontal", 
-        legend.text = element_text(size = 4),
-        legend.title = element_text(size = 5)) + 
-  guides(fill = guide_colourbar(title.position="top", 
-                                title.hjust = 0.5, barheight = .5, barwidth = 5))
-t
-
-```
-\newpage
-
-### Core-genome phylogenetic tree
-
-The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree. The numbers are the bootstrap values, a value greater than 95 indicates a robustly supported grouping of isolates.
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-q <- ggtree(mpt, color = "grey", alpha = .5) + 
-  geom_nodelab(aes(label=label, x = branch, subset = !isTip), vjust=-.5, size=1.25) +
- #geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) + 
-  geom_tiplab(size=1, align=TRUE, linesize=.5, offset = .001) +
-  geom_treescale(offset = .2, fontsize = 1.5) + 
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
-
-xmax <-  max(q$data$x)
-xmin <- -.0001
-q + xlim(xmin,(xmax+.003))
-
-```
-\newpage
-
-## Core-genome phylogenetic tree and SNP heatmap
-
-```{r echo=FALSE, message=FALSE}
 
 gtree <- ggtree(mpt, size =.25)
 
@@ -159,24 +88,43 @@ snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 gheatmap(gtree, snp.mat, width = 12,
          cell_labels = TRUE,
          font.size = 1,
-         cell_font_size = 1, 
+         cell_font_size = 1,
          hjust = 1,
-         offset = 0.008, 
-         colnames_angle = 90, 
+         offset = 0.008,
+         colnames_angle = 90,
          rownames_angle = 0,
          colnames_offset = 0,
-         rownames_offset = 0.003) + 
-  scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") + 
+         rownames_offset = 0.003) +
+  scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
   ylim(ymin,ymax) +
   theme(plot.margin = unit(c(0,0,0,0), "mm"),
         legend.position="bottom",
         legend.margin=margin(0,0,0,0),
-        legend.box="horizontal", 
+        legend.box="horizontal",
         legend.text = element_text(size = 3),
-        legend.title = element_text(size = 4)) + 
-  guides(fill = guide_colourbar(title.position="top", 
+        legend.title = element_text(size = 4)) +
+  guides(fill = guide_colourbar(title.position="top",
                                 title.hjust = 0.5, barheight = .5, barwidth = 5))
 
+```
+\newpage
+
+### Core-genome phylogenetic tree
+
+The core-genome is the core set of genes shared across all isolates in the sample. Using variation within that core set of genes, we can estimate how related isolates are. We do this by determining if isolates share a similar common ancestor. Here we are looking for isolates that cluster together and share a small amount of horizontal distance on the tree. Bootstrap values are shown in boxes on the tree. A bootstrap value greater than 95 suggests the placement of a branch on the tree is well supported.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+q <- ggtree(mpt, color = "grey", alpha = .5) +
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, size=1.25) +
+ #geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) +
+  geom_tiplab(size=1, align=TRUE, linesize=.5, offset = .001) +
+  geom_treescale(offset = .2, fontsize = 1.5) +
+  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+
+xmax <-  max(q$data$x)
+xmin <- -.0001
+q + xlim(xmin,(xmax+.003))
 
 ```
 
