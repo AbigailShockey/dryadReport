@@ -69,22 +69,28 @@ The number of Single Nucleotide Polymorphisms (SNPs) between each sample is show
 
 set.seed(123)
 
+### Read in core genome tree and midpoint root
 tree <-  read.tree(nwk)
 mpt <- midpoint(tree)
 
+### Plot midpoint-rooted core-genome tree
 gtree <- ggtree(mpt, size =.25)
 
+### Calculate y max and min from plot
 ymax <- max(gtree$data$y) + 1
 ymin <- min(gtree$data$y) - 7.5
 
+### Replace "." with "-" column names
 colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
 colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
 
+### Convert midpoint rooted tree to dataframe, get tip labels and order snp matrix by tip labels
 mpt.fort <- fortify(mpt)
 mpt.tip <- mpt.fort[which(mpt.fort$isTip == TRUE),]
 mpt.ord <- mpt.tip$label[order(mpt.tip$y)]
 snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 
+### Plot midpoint rooted tree with snp heatmap
 gheatmap(gtree, snp.mat, width = 12,
          cell_labels = TRUE,
          font.size = 1,
@@ -115,9 +121,10 @@ The core-genome is the core set of genes shared across all isolates in the sampl
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+### plot midpoint rooted tree with bostrap values > 95
 q <- ggtree(mpt, color = "grey", alpha = .5) +
   geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, size=1.25) +
- #geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) +
+ # geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) +
   geom_tiplab(size=1, align=TRUE, linesize=.5, offset = .001) +
   geom_treescale(offset = .2, fontsize = 1.5) +
   theme(plot.margin = unit(c(0,0,0,0), "cm"))
