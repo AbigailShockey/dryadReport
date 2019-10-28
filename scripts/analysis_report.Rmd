@@ -71,7 +71,7 @@ set.seed(123)
 
 ### Read in core genome tree and midpoint root
 tree <-  read.tree(nwk)
-mpt <- midpoint(tree)
+mpt <- midpoint.root(tree)
 
 ### Plot midpoint-rooted core-genome tree
 gtree <- ggtree(mpt, size =.25, branch.length = "none")
