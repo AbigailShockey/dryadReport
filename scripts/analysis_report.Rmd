@@ -99,7 +99,7 @@ gheatmap(gtree, snp.mat, width = 12,
          colnames_angle = 90,
          rownames_angle = 0,
          colnames_offset = 0,
-         rownames_offset = 0) +
+         rownames_offset = 0.5) +
   scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
   ylim(ymin,ymax) +
   theme(plot.margin = unit(c(0,0,0,0), "mm"),
