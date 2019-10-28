@@ -84,6 +84,13 @@ ymin <- min(gtree$data$y) - 3
 colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
 colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
 
+### Optional steps to split isolate names by delimiter such as "-"; uncomment to use
+
+#delim <- ""
+#mpt$tip.label <- sapply(strsplit(mpt$tip.label, delim), "[[", 1)
+#rownames(snp.mat) <- sapply(strsplit(rownames(snp.mat), delim), "[[", 1)
+#colnames(snp.mat) <- sapply(strsplit(colnames(snp.mat), delim), "[[", 1)
+
 ### Convert midpoint rooted tree to dataframe, get tip labels and order snp matrix by tip labels
 mpt.fort <- fortify(mpt)
 mpt.tip <- mpt.fort[which(mpt.fort$isTip == TRUE),]
