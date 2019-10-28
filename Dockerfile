@@ -18,6 +18,8 @@ RUN apt-get update && \
   pandoc \
   pandoc-citeproc\
   wget\
+  imagemagick\
+  libmagick++-dev\
   texlive-latex-base\
   texlive-fonts-recommended\
   texlive-latex-recommended\
@@ -56,6 +58,8 @@ RUN R -e "install.packages(c( \
   'tidyverse',\
   'tinytex',\
   'tidyr',\
+  'magick',\
+  'phytools',\
   'reshape2'), repos = 'http://cran.us.r-project.org')" && \
   R -e "devtools::install_github('AbigailShockey/ggtree')" && \
   R -e "devtools::install_github('rlbarter/superheat')" && \
