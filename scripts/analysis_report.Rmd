@@ -85,7 +85,6 @@ colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
 colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
 
 ### Optional steps to split isolate names by delimiter such as "-"; uncomment to use
-
 #delim <- ""
 #mpt$tip.label <- sapply(strsplit(mpt$tip.label, delim), "[[", 1)
 #rownames(snp.mat) <- sapply(strsplit(rownames(snp.mat), delim), "[[", 1)
