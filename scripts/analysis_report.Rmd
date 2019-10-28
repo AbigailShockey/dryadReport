@@ -78,7 +78,7 @@ gtree <- ggtree(mpt, size =.25)
 
 ### Calculate y max and min from plot
 ymax <- max(gtree$data$y) + 1
-ymin <- min(gtree$data$y) - 7.5
+ymin <- min(gtree$data$y) - 3
 
 ### Replace "." with "-" column names
 colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
@@ -93,14 +93,13 @@ snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 ### Plot midpoint rooted tree with snp heatmap
 gheatmap(gtree, snp.mat, width = 12,
          cell_labels = TRUE,
-         font.size = 1,
-         cell_font_size = 1,
-         hjust = 1,
-         offset = 0.008,
+         font.size = 2,
+         cell_font_size = 2,
+         offset = 0,
          colnames_angle = 90,
          rownames_angle = 0,
          colnames_offset = 0,
-         rownames_offset = 0.003) +
+         rownames_offset = 0) +
   scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
   ylim(ymin,ymax) +
   theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -123,15 +122,21 @@ The core-genome is the core set of genes shared across all isolates in the sampl
 
 ### plot midpoint rooted tree with bostrap values > 95
 q <- ggtree(mpt, color = "grey", alpha = .5) +
-  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, size=1.25) +
- # geom_label2(aes(label=label, x = branch, subset = !isTip), size = 1.5, label.size = .05, nudge_x = -.0002) +
-  geom_tiplab(size=1, align=TRUE, linesize=.5, offset = .001) +
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, size=2) +
+ # geom_label2(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), size = 2, label.size = .1, nudge_x = -.0002) +
+  geom_tiplab(size=2) +
   geom_treescale(offset = .2, fontsize = 1.5) +
   theme(plot.margin = unit(c(0,0,0,0), "cm"))
 
-xmax <-  max(q$data$x)
-xmin <- -.0001
-q + xlim(xmin,(xmax+.003))
+### Set x min and max of plot
+log10_ceiling <- function(x) {
+  10^(ceiling(log10(x)))
+}
+
+xmax <- max(q$data$x) + (log10_ceiling(max(q$data$x))/50)
+xmin <- 0
+
+q + xlim(xmin,xmax)
 
 ```
 
