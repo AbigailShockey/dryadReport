@@ -74,7 +74,7 @@ tree <-  read.tree(nwk)
 mpt <- midpoint(tree)
 
 ### Plot midpoint-rooted core-genome tree
-gtree <- ggtree(mpt, size =.25)
+gtree <- ggtree(mpt, size =.25, branch.length = "none")
 
 ### Calculate y max and min from plot
 ymax <- max(gtree$data$y) + 1
