@@ -257,7 +257,7 @@ if (length(mpt$tip.label) > 30 & length(mpt$tip.label) < 36) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 4
   
-  gheatmap(r, snp.mat, width = 60,
+  gheatmap(gtree, snp.mat, width = 60,
        cell_labels = TRUE,
        font.size = 1.5,
        cell_font_size = 1.2,
