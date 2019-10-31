@@ -71,6 +71,9 @@ The number of Single Nucleotide Polymorphisms (SNPs) between each sample is show
 # snp.mat <- read.table("", header = T, stringsAsFactors = F)
 # nwk <- ""
 
+### This section is optimized for round numbers of samples (5, 10, 15, 20, etc)
+#### The variables that will most likely need to be changed are offset and rownames_offset
+
 ### Set seed for reproducibility
 set.seed(123)
 
@@ -126,7 +129,6 @@ if (length(mpt$tip.label) < 6) {
 }
 
 if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
-
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 7
   
@@ -152,7 +154,6 @@ if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
 }
 
 if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 16) {
-  
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 9.5
   
@@ -254,27 +255,28 @@ if (length(mpt$tip.label) > 25 & length(mpt$tip.label) < 31) {
 
 if (length(mpt$tip.label) > 30 & length(mpt$tip.label) < 36) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 2
+  ymin <- min(gtree$data$y) - 4
   
-  gheatmap(gtree, snp.mat, width = 60,
-           cell_labels = TRUE,
-           font.size = 1.5,
-           cell_font_size = 1.5,
-           offset = 30,
-           colnames_angle = 90,
-           rownames_angle = 0,
-           colnames_offset = .25,
-           rownames_offset = -29) +
-    scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
-    ylim(ymin,ymax) +
-    theme(plot.margin = unit(c(0,0,0,0), "mm"),
-          legend.position="bottom",
-          legend.margin=margin(0,0,0,0),
-          legend.box="horizontal",
-          legend.text = element_text(size = 4),
-          legend.title = element_text(size = 5)) +
-    guides(fill = guide_colourbar(title.position="top",
-                                  title.hjust = 0.5, barheight = .5, barwidth = 5))
+  gheatmap(r, snp.mat, width = 60,
+       cell_labels = TRUE,
+       font.size = 1.5,
+       cell_font_size = 1.2,
+       offset = 40,
+       colnames_angle = 90,
+       rownames_angle = 0,
+       colnames_offset = .25,
+       rownames_offset = -38) +
+   scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)), na.value = "white", name = "SNPs",guide = "colourbar") +
+   ylim(ymin,ymax) +
+   theme(plot.margin = unit(c(0,0,0,0), "mm"),
+      legend.position="bottom",
+      legend.margin=margin(0,0,0,0),
+      legend.box="horizontal",
+      legend.text = element_text(size = 4),
+      legend.title = element_text(size = 5)) +
+   guides(fill = guide_colourbar(title.position="top",
+                  title.hjust = 0.5, barheight = .5, barwidth = 5), 
+       color = guide_legend(title.position="top", title.hjust = 0.5))
 }
 
 ```
