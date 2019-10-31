@@ -105,17 +105,17 @@ snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 ### Plot midpoint-rooted tree with snp heatmap
 if (length(mpt$tip.label) < 6) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 4
+  ymin <- min(gtree$data$y) - 5
   
   gheatmap(gtree, snp.mat, width = 15,
            cell_labels = TRUE,
            font.size = 2.5,
            cell_font_size = 2.5,
-           offset = 14,
+           offset = 15,
            colnames_angle = 90,
            rownames_angle = 0,
            colnames_offset = .25,
-           rownames_offset = -13) +
+           rownames_offset = -14) +
     scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
     ylim(ymin,ymax) +
     theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -130,17 +130,17 @@ if (length(mpt$tip.label) < 6) {
 
 if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 7
+  ymin <- min(gtree$data$y) - 6.5
   
-  gheatmap(gtree, snp.mat, width = 15,
+  gheatmap(gtree, snp.mat, width = 25,
            cell_labels = TRUE,
-           font.size = 2.5,
-           cell_font_size = 2.5,
-           offset = 24,
+           font.size = 2.25,
+           cell_font_size = 2.25,
+           offset = 35,
            colnames_angle = 90,
            rownames_angle = 0,
            colnames_offset = .25,
-           rownames_offset = -23) +
+           rownames_offset = -34) +
     scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
     ylim(ymin,ymax) +
     theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -155,17 +155,17 @@ if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
 
 if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 16) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 9.5
+  ymin <- min(gtree$data$y) - 10
   
-  gheatmap(gtree, snp.mat, width = 20,
+  gheatmap(gtree, snp.mat, width = 25,
            cell_labels = TRUE,
-           font.size = 2.5,
+           font.size = 2.25,
            cell_font_size = 2.25,
-           offset = 40,
+           offset = 45,
            colnames_angle = 90,
            rownames_angle = 0,
            colnames_offset = .25,
-           rownames_offset = -39) +
+           rownames_offset = -44) +
     scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
     ylim(ymin,ymax) +
     theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -180,17 +180,17 @@ if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 16) {
 
 if (length(mpt$tip.label) > 15 & length(mpt$tip.label) < 21) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 7
+  ymin <- min(gtree$data$y) - 4
   
-  gheatmap(gtree, snp.mat, width = 60,
+  gheatmap(gtree, snp.mat, width = 40,
            cell_labels = TRUE,
-           font.size = 1.75,
-           cell_font_size = 1.75,
-           offset = 95,
+           font.size = 2.25,
+           cell_font_size = 2.25,
+           offset = 28,
            colnames_angle = 90,
            rownames_angle = 0,
            colnames_offset = .25,
-           rownames_offset = -93) +
+           rownames_offset = -27) +
     scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
     ylim(ymin,ymax) +
     theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -211,11 +211,11 @@ if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 26) {
            cell_labels = TRUE,
            font.size = 1.75,
            cell_font_size = 1.75,
-           offset = 30,
+           offset = 35,
            colnames_angle = 90,
            rownames_angle = 0,
            colnames_offset = .25,
-           rownames_offset = -28) +
+           rownames_offset = -34) +
     scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)),na.value = "white", name = "SNPs",guide = "colourbar") +
     ylim(ymin,ymax) +
     theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -230,7 +230,7 @@ if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 26) {
 
 if (length(mpt$tip.label) > 25 & length(mpt$tip.label) < 31) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 2.75
+  ymin <- min(gtree$data$y) - 4
   
   gheatmap(gtree, snp.mat, width = 60,
            cell_labels = TRUE,
@@ -255,17 +255,17 @@ if (length(mpt$tip.label) > 25 & length(mpt$tip.label) < 31) {
 
 if (length(mpt$tip.label) > 30 & length(mpt$tip.label) < 36) {
   ymax <- max(gtree$data$y) + 1
-  ymin <- min(gtree$data$y) - 4
+  ymin <- min(gtree$data$y) - 3
   
   gheatmap(gtree, snp.mat, width = 60,
        cell_labels = TRUE,
        font.size = 1.5,
        cell_font_size = 1.2,
-       offset = 40,
+       offset = 35,
        colnames_angle = 90,
        rownames_angle = 0,
        colnames_offset = .25,
-       rownames_offset = -38) +
+       rownames_offset = -34) +
    scale_fill_viridis_c(limits= c(1,(max(snp.mat)+1)), na.value = "white", name = "SNPs",guide = "colourbar") +
    ylim(ymin,ymax) +
    theme(plot.margin = unit(c(0,0,0,0), "mm"),
@@ -275,8 +275,7 @@ if (length(mpt$tip.label) > 30 & length(mpt$tip.label) < 36) {
       legend.text = element_text(size = 4),
       legend.title = element_text(size = 5)) +
    guides(fill = guide_colourbar(title.position="top",
-                  title.hjust = 0.5, barheight = .5, barwidth = 5), 
-       color = guide_legend(title.position="top", title.hjust = 0.5))
+                  title.hjust = 0.5, barheight = .5, barwidth = 5))
 }
 
 ```
@@ -290,10 +289,10 @@ The core-genome is the core set of genes shared across all isolates in the sampl
 
 if (length(mpt$tip.label) < 11) {
   q <- ggtree(mpt, color = "black", alpha = .6) +
-  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 2) +
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 1.75) +
   # geom_label2(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), size = 2, label.size = .1, nudge_x = -.0002) +
-  geom_tiplab(size = 2) +
-  geom_treescale(offset = .1, y = 0, x = 0, fontsize = 2) +
+  geom_tiplab(size = 1.75) +
+  geom_treescale(offset = .1, y = 0, x = 0, fontsize = 1.75) +
   theme(plot.margin = unit(c(0,0,0,0), "cm"))
 
   log10_ceiling <- function(x) {
@@ -307,10 +306,10 @@ if (length(mpt$tip.label) < 11) {
 
 if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 21) {
   q <- ggtree(mpt, color = "black", alpha = .6) +
-  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 2) +
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 1.75) +
   # geom_label2(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), size = 2, label.size = .1, nudge_x = -.0002) +
-  geom_tiplab(size = 2) +
-  geom_treescale(offset = .1, y = 0, x = 0, fontsize = 2) +
+  geom_tiplab(size = 1.75) +
+  geom_treescale(offset = .1, y = 0, x = 0, fontsize = 1.75) +
   theme(plot.margin = unit(c(0,0,0,0), "cm"))
 
   log10_ceiling <- function(x) {
@@ -324,10 +323,10 @@ if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 21) {
 
 if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 31) {
   q <- ggtree(mpt, color = "black", alpha = .6) +
-  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 2) +
+  geom_nodelab(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), vjust=-.5, nudge_x = -.0005, size = 1.75) +
   # geom_label2(aes(label=label, x = branch, subset = !isTip & (as.numeric(label) > 95)), size = 2, label.size = .1, nudge_x = -.0002) +
-  geom_tiplab(size = 2) +
-  geom_treescale(offset = .2, y = 0, x = 0, fontsize = 2) +
+  geom_tiplab(size = 1.75) +
+  geom_treescale(offset = .2, y = 0, x = 0, fontsize = 1.75) +
   theme(plot.margin = unit(c(0,0,0,0), "cm"))
 
   log10_ceiling <- function(x) {
