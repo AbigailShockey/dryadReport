@@ -60,7 +60,7 @@ knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
 
 ### *`r species`* Analysis
 
-The analysis of the *`r species`* samples you provided us (n = `r num.iso`) has been completed. This is what we were able to determine:
+The analysis of the *`r species`* samples (n = `r num.iso`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isoaltes are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
 ### SNP Heatmap and Core-Genome Tree
 
@@ -106,7 +106,7 @@ snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 if (length(mpt$tip.label) < 6) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 5
-  
+
   gheatmap(gtree, snp.mat, width = 15,
            cell_labels = TRUE,
            font.size = 2.5,
@@ -131,7 +131,7 @@ if (length(mpt$tip.label) < 6) {
 if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 6.5
-  
+
   gheatmap(gtree, snp.mat, width = 25,
            cell_labels = TRUE,
            font.size = 2.25,
@@ -156,7 +156,7 @@ if (length(mpt$tip.label) > 5 & length(mpt$tip.label) < 11) {
 if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 16) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 10
-  
+
   gheatmap(gtree, snp.mat, width = 25,
            cell_labels = TRUE,
            font.size = 2.25,
@@ -181,7 +181,7 @@ if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 16) {
 if (length(mpt$tip.label) > 15 & length(mpt$tip.label) < 21) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 4
-  
+
   gheatmap(gtree, snp.mat, width = 40,
            cell_labels = TRUE,
            font.size = 2.25,
@@ -206,7 +206,7 @@ if (length(mpt$tip.label) > 15 & length(mpt$tip.label) < 21) {
 if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 26) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 3
-  
+
   gheatmap(gtree, snp.mat, width = 60,
            cell_labels = TRUE,
            font.size = 1.75,
@@ -231,7 +231,7 @@ if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 26) {
 if (length(mpt$tip.label) > 25 & length(mpt$tip.label) < 31) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 4
-  
+
   gheatmap(gtree, snp.mat, width = 60,
            cell_labels = TRUE,
            font.size = 1.75,
@@ -256,7 +256,7 @@ if (length(mpt$tip.label) > 25 & length(mpt$tip.label) < 31) {
 if (length(mpt$tip.label) > 30 & length(mpt$tip.label) < 36) {
   ymax <- max(gtree$data$y) + 1
   ymin <- min(gtree$data$y) - 3
-  
+
   gheatmap(gtree, snp.mat, width = 60,
        cell_labels = TRUE,
        font.size = 1.5,
@@ -300,7 +300,7 @@ if (length(mpt$tip.label) < 11) {
   }
   xmax <- max(q$data$x) + (log10_ceiling(max(q$data$x))/10)
   xmin <- 0
-  
+
   q + xlim(xmin,xmax) + ylim(0,max(q$data$y))
 }
 
@@ -317,7 +317,7 @@ if (length(mpt$tip.label) > 10 & length(mpt$tip.label) < 21) {
   }
   xmax <- max(q$data$x) + (log10_ceiling(max(q$data$x))/10)
   xmin <- 0
-  
+
   q + xlim(xmin,xmax) + ylim(0,max(q$data$y))
 }
 
@@ -334,7 +334,7 @@ if (length(mpt$tip.label) > 20 & length(mpt$tip.label) < 31) {
   }
   xmax <- max(q$data$x) + (log10_ceiling(max(q$data$x))/10)
   xmin <- 0
-  
+
   q + xlim(xmin,xmax) + ylim(0,max(q$data$y))
 }
 
@@ -345,13 +345,13 @@ if (length(mpt$tip.label) > 30) {
     geom_tiplab(size = 2) +
     geom_treescale(offset = .5, y = 0, x = 0, fontsize = 2) +
     theme(plot.margin = unit(c(0,0,0,0), "cm"))
-  
+
   log10_ceiling <- function(x) {
     10^(ceiling(log10(x)))
   }
   xmax <- max(q$data$x) + (log10_ceiling(max(q$data$x))/10)
   xmin <- 0
-  
+
   q + xlim(xmin,xmax) + ylim(0,max(q$data$y))
 }
 
@@ -360,4 +360,4 @@ if (length(mpt$tip.label) > 30) {
 
 ### Methods
 
-The figures shown here were generated using sequence data processed with our data analysis pipeline, Dryad ([https://github.com/k-florek/dryad](https://github.com/k-florek/dryad)). SNPs were called using the Center for Food Safety and Applied Nutrition ([CFSAN](https://github.com/CFSAN-Biostatistics/snp-pipeline)) SNP pipeline within Dryad. The core-genome tree was generated using an alignment of coding regions shared across 99% of isolates. The tree was generated using a maximum-likelihood method with the GTR+G substitution model and bootstrapped with 1000 replicates. Report generated using R and designed by Abigail Shockey.
+The figures shown here were generated using sequence data processed with our data analysis pipeline, Dryad ([https://github.com/k-florek/dryad](https://github.com/k-florek/dryad)). SNPs were called using the Center for Food Safety and Applied Nutrition ([CFSAN](https://github.com/CFSAN-Biostatistics/snp-pipeline)) SNP pipeline within Dryad. The core-genome tree was generated using an alignment of coding regions shared across 99% of isolates. The tree was generated using a maximum-likelihood method with the GTR+G substitution model and bootstrapped with 1000 replicates. Report generated using R and designed by Abigail Shockey. If you have questions about this report please contact Kelsey Florek at [kelsey.florek@slh.wisc.edu](kelsey.florek@slh.wisc.edu).
