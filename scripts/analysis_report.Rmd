@@ -62,9 +62,9 @@ knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
 
 The analysis of the *`r species`* samples (n = `r num.iso`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
-### SNP Heatmap and Core-Genome Tree
+### SNP Heatmap
 
-The number of Single Nucleotide Polymorphisms (SNPs) between each sample is shown on the heatmap below, with the core-genomy tree on the left. There is no hard and fast rule for determining how many SNPs are needed to classify an outbreak. Generally it is best to look for patterns in the data between the SNP data and the core-genome tree.
+The number of Single Nucleotide Polymorphisms (SNPs) between each sample is shown on the heatmap below. There is no hard and fast rule for determining how many SNPs are needed to classify an outbreak. Generally it is best to look for patterns in the data between the SNP data and the core-genome tree.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
