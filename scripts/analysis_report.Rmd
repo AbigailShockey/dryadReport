@@ -60,7 +60,7 @@ knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
 
 ### *`r species`* Analysis
 
-The analysis of the *`r species`* samples (n = `r num.iso`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isoaltes are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
+The analysis of the *`r species`* samples (n = `r num.iso`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
 ### SNP Heatmap and Core-Genome Tree
 
