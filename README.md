@@ -9,7 +9,7 @@ Usage:
       run_report.sh <options>
 Options:
       Required
-      -s      Geneous and Species eg. "Escherichia coli"
+      -s      Genus and Species eg. "Escherichia coli"
       -n      Number of isolates
       Optional
       -o      Output path: defaults to /data/
