@@ -56,7 +56,7 @@ knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
 
 ```{r heatmap-ploting-defaults echo = FALSE, message = FALSE, warning = FALSE}
 
-# alter these plotting defaults as necessary; these are what we've found work best for our data
+# alter these plotting defaults as necessary
 
 # heatmap width relative to plot
 heatmap_width <- 25
