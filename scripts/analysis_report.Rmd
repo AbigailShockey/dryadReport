@@ -96,7 +96,7 @@ ymax <- max(gtree$data$y) + 1
 
 ```{r tree-plot-defaults echo = FALSE, message = FALSE, warning = FALSE}
 
-# alter these plotting defaults as necessary; these are what we've found work best for our data
+# alter these plotting defaults as necessary
 
 # bootstrap cutoff; plot boostrap values above this threshold
 boot_thresh <- 95
