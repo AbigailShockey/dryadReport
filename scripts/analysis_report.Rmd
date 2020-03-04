@@ -125,12 +125,14 @@ The analysis has been completed. These results must always be used in conjunctio
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ar_df <- ar_df[,c(1,5,9,10)]
-colnames(ar_df) <- c("Isolate","Gene","Coverage","Identity")
-ar <- c("OXA","KPC","VIM","IMP","NDM")
-ar_df <- dplyr::filter(ar_df, grepl(paste(ar, collapse="|"), Gene))
-kable(ar_df) %>%
-  kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
+if (ar != "none"){
+    ar_df <- ar_df[,c(1,5,9,10)]
+    colnames(ar_df) <- c("Isolate","Gene","Coverage","Identity")
+    ar <- c("OXA","KPC","VIM","IMP","NDM")
+    ar_df <- dplyr::filter(ar_df, grepl(paste(ar, collapse="|"), Gene))
+    kable(ar_df) %>%
+      kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
+}
 
 ```
 
