@@ -10,9 +10,9 @@ Usage:
 Options:
       Required
       -s      Genus and Species eg. "Escherichia coli"
-      -n      Number of isolates
       Optional
-      -o      Output path: defaults to /data/
       -p      SNP matrix file name: defaults to snp_distance_matrix.tsv
       -c      Core-geneome newick tree file: defaults to core_genome_tree.tree
+      -o      Output path: defaults to /data/
+      -a      Output of abricate: defaults to none
 ```
