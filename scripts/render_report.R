@@ -7,13 +7,11 @@ library(tools)
 args = commandArgs(trailingOnly=TRUE)
 
 # Read inputs
-output_path <- args[1]
-species <- args[2]
-num.iso <- args[3]
-snp.mat <- read.table(file_path_as_absolute(args[4]), header = T)
-nwk <- file_path_as_absolute(args[5])
-
-
+species <- args[1]
+snp.mat <- read.table(file_path_as_absolute(args[2]), header = T)
+nwk <- file_path_as_absolute(args[3])
+output_path <- args[4]
+ar_df <- args[5]
 
 # Render the report
 render('analysis_report.Rmd', output_file='analysis_report.pdf')
