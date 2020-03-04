@@ -146,6 +146,9 @@ The number of Single Nucleotide Polymorphisms (SNPs) between each sample is show
 tree <- read.tree(nwk)
 mpt <- midpoint.root(tree)
 
+# split tip labels
+mpt$tip.label <- sapply(strsplit(mpt$tip.label, delim), "[[", 1)
+
 # store midpoint-rooted tree as dataframe
 mpt.fort <- fortify(mpt)
 
@@ -168,12 +171,18 @@ colnames(snp_mat) <- gsub("X","",colnames(snp_mat))
 # replace any "." with "-" in column names
 colnames(snp_mat) <- gsub("\\.","-",colnames(snp_mat))
 
+# split names
+rownames(snp.mat) <- sapply(strsplit(rownames(snp.mat), delim), "[[", 1)
+colnames(snp.mat) <- sapply(strsplit(colnames(snp.mat), delim), "[[", 1)
+
 # order snp matrix by vertical order of tip labels
 snp_mat <- snp_mat[c(mpt.ord),c(mpt.ord)]
 
 ```
 
 ```{r plot-tree-and-heatmap echo = FALSE, message = FALSE, warning = FALSE}
+
+### Split isolate IDs by delimiter "-" and "_" (for >= 20 isolates)
 
 # main tree plotting function
 gheatmap(gtree, snp_mat,
