@@ -52,6 +52,8 @@ date <- Sys.Date()
 ## Figure size
 knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
 
+num.isolates <- length(rownames(snp.mat))
+
 ```
 
 ```{r heatmap-ploting-defaults echo = FALSE, message = FALSE, warning = FALSE}
