@@ -187,7 +187,7 @@ snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
 ### Split isolate IDs by delimiter "-" and "_" (for >= 20 isolates)
 
 # ggtree will often crop the figure too small; subtract from ymin and add to ymax to fix this
-ymin <- min(gtree$data$y) - 4
+ymin <- min(gtree$data$y) - 1
 ymax <- max(gtree$data$y) + 1
 
 # main tree plotting function
