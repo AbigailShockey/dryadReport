@@ -122,7 +122,7 @@ tip_font_size <- 2
 
 ### *`r species`* Analysis
 
-The analysis has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
+The analysis of `r species` (n = `r num.isolates`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
