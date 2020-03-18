@@ -124,9 +124,7 @@ The analysis of `r species` (n = `r num.isolates`) has been completed. These res
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 if (ar != "none"){
-    ar_df <- ar_df[,c(1,5,9,10)]
-    colnames(ar_df) <- c("Isolate","Gene","Coverage","Identity")
-    ar <- c("OXA","KPC","VIM","IMP","NDM")
+    ar <- c("blaOXA","blaKPC","blaVIM","blaIMP","blaNDM")
     ar_df <- dplyr::filter(ar_df, grepl(paste(ar, collapse="|"), Gene))
     kable(ar_df) %>%
       kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
