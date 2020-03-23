@@ -1,45 +1,6 @@
 ---
-output:
-  pdf_document:
-    latex_engine: xelatex
-header-includes:
-    - \usepackage{fancyhdr}
-    - \usepackage{fontspec}
-    - \usepackage{xcolor}
-    - \geometry{left=0.5in,right=0.5in}
-mainfont: Roboto
-sansfont: Roboto
-urlcolor: badgerred
+output: html_document
 ---
-<!-- define color and adjust lengths for header and footer-->
-\definecolor{badgerred}{RGB}{197,5,12}
-\addtolength{\headheight}{3.0cm}
-\addtolength{\topmargin}{-0.5in}
-\addtolength{\footskip}{-0.225in}
-
-<!-- % setup header -->
-\pagestyle{fancy}
-\fancyhf{}
-
-<!-- header content -->
-\fancyhead[L]{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
-\fancyhead[R]{\Huge Genomic Clustering Report\\
-\Large `r paste(Sys.Date())`}
-
-<!-- create red header line -->
-\renewcommand{\headrulewidth}{1pt}
-\renewcommand{\headrule}{\hbox to\headwidth{%
-    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
-
-<!-- footer content -->
-\fancyfoot[C]{For research use only, not for clinical use.}
-\fancyfoot[R]{\thepage}
-
-<!-- create red footer line -->
-\renewcommand{\footrulewidth}{1pt}
-\renewcommand{\footrule}{\hbox to\headwidth{%
-    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
-
 ```{r include=FALSE}
 
 ## Libraries
@@ -50,12 +11,13 @@ library(superheat)
 library(dplyr)
 library(kableExtra)
 library(viridis)
+
 date <- Sys.Date()
 
 ## Figure size
-knitr::opts_chunk$set(out.width="7.5in", out.height="8in", fig.align="left")
+knitr::opts_chunk$set(fig.align="center")
 
-num.isolates <- length(rownames(snp.mat))
+delim <- "-|_"
 
 ```
 
@@ -126,12 +88,12 @@ The analysis of `r species` (n = `r num.isolates`) has been completed. These res
 
 ### Antibiotic Resistance
 
-Key antibiotic resistance genes identified in each sample are shown in the table below. Identity and coverage compared to the reference gene is shown in the right two columns.
 
 ```{r ar-table, echo=FALSE, message=FALSE, warning=FALSE}
 
 if (is.list(ar_tsv)) {
     ar_genes <- c("blaOXA","blaKPC","blaVIM","blaIMP","blaNDM")
+    ar_tsv$Sample <- sapply(strsplit(ar_tsv$Sample, delim), "[[", 1)
     ar_df <- dplyr::filter(ar_tsv, grepl(paste(ar_genes, collapse="|"), Gene))
     kable(ar_df) %>%
       kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
@@ -139,7 +101,8 @@ if (is.list(ar_tsv)) {
 
 ```
 
-The presence (grey) or absence (white) of antibiotic resistance genes identifiedin each sample is shown in the matrix below. A dendrogram based on clustering of the presence of antibiotic resitance genes is shown on the right. Isolates that cluster close together have similar antibiotic resistance profiles.
+
+The presence (grey) or absence (white) of antibiotic resistance genes identifiedin each sample is shown in the matrix below. A dendrogram based on clustering of the presence of antibiotic resitance genes is shown on the right. Isolates that cluster close together have similar antibiotic resistance profiles. 
 
 ```{r ar-heatmap, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -152,7 +115,7 @@ if (is.list(ar_mat)) {
 
   colnames(ar_mat) <- ar
   rownames(ar_mat) <- samples
-  rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat[,]), "-"), "[[", 1)
+  rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat[,]), delim), "[[", 1)
 
 
 superheat(ar_mat,
@@ -187,8 +150,6 @@ The number of Single Nucleotide Polymorphisms (SNPs) between each sample is show
 # read tree and midpoint root
 tree <- read.tree(nwk)
 mpt <- midpoint.root(tree)
-
-delim <- "-|_"
 
 # split tip labels
 mpt$tip.label <- sapply(strsplit(mpt$tip.label, delim), "[[", 1)
