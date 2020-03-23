@@ -46,7 +46,10 @@ urlcolor: badgerred
 library(ggplot2)
 library(ggtree)
 library(phytools)
-
+library(superheat)
+library(dplyr)
+library(kableExtra)
+library(viridis)
 date <- Sys.Date()
 
 ## Figure size
