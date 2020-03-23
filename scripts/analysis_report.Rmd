@@ -121,12 +121,14 @@ tip_font_size <- 2
 The analysis of `r species` (n = `r num.isolates`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
 
+### Antibiotic Resistance
+
+
 ```{r ar-table, echo=FALSE, message=FALSE, warning=FALSE}
 
-if (ar_tsv != "none") {
-    sapply(strsplit(ar_tsv$Sample, "-"), "[[", 1)
+if (is.list(ar_tsv)) {
     ar_genes <- c("blaOXA","blaKPC","blaVIM","blaIMP","blaNDM")
-    ar_df <- dplyr::filter(ar_df, grepl(paste(ar_genes, collapse="|"), Gene))
+    ar_df <- dplyr::filter(ar_tsv, grepl(paste(ar_genes, collapse="|"), Gene))
     kable(ar_df) %>%
       kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
 }
@@ -135,32 +137,35 @@ if (ar_tsv != "none") {
 
 ```{r ar-heatmap, echo=FALSE, message=FALSE, warning=FALSE}
 
-if (ar_mat != "none") {
+if (is.list(ar_mat)) {
   len <- length(ar_mat$V2)
   ar <- unname(unlist(ar_mat[1,]))
   ar_mat <- ar_mat[2:len,]
   samples <- row.names(ar_mat)
-  ar_mat <- ar_mata.frame(sapply(ar_mat[,], as.numeric))
+  ar_mat <- data.frame(sapply(ar_mat[,], as.numeric))
 
   colnames(ar_mat) <- ar
   rownames(ar_mat) <- samples
-  rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat), "-"), "[[", 1)
+  rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat[,]), "-"), "[[", 1)
 
-  superheat(ar_mat,
-            pretty.order.rows = TRUE,
-            pretty.order.cols = TRUE,
-            row.dendrogram = T,
-            scale = F,
-            heat.pal.values = c(0, 1),
-            heat.lim = c(0,1),
-            bottom.label.text.angle = 90,
-            bottom.label.text.alignment = "right",
-            left.label.text.alignment = "right",
-            left.label.col = "white",
-            bottom.label.col = "white",
-            heat.pal = c("white", "white",
-                                "grey"),
-            legend = FALSE)
+
+superheat(ar_mat,
+          pretty.order.rows = TRUE,
+          pretty.order.cols = TRUE,
+          row.dendrogram = T,
+          scale = F,
+          heat.pal.values = c(0, 1),
+          heat.lim = c(0,1),
+          bottom.label.text.angle = 90,
+          left.label.col = "white",
+          bottom.label.col = "white",
+          heat.pal = c("white", "white",
+                       "grey"),
+          legend = FALSE,
+          left.label.text.size = 4,
+          bottom.label.text.size = 4,
+          left.label.size = .3,
+          bottom.label.size = .25)
 }
 
 ```
@@ -199,17 +204,17 @@ gtree <- ggtree(mpt, branch.length = "none")
 # This block formats the matrix
 
 # R places an X in front of #s when reading in a dataframe
-colnames(snp.mat) <- gsub("X","",colnames(snp.mat))
+colnames(snp_mat) <- gsub("X","",colnames(snp_mat))
 
 # replace any "." with "-" in column names
-colnames(snp.mat) <- gsub("\\.","-",colnames(snp.mat))
+colnames(snp_mat) <- gsub("\\.","-",colnames(snp_mat))
 
 # split names
-rownames(snp.mat) <- sapply(strsplit(rownames(snp.mat), delim), "[[", 1)
-colnames(snp.mat) <- sapply(strsplit(colnames(snp.mat), delim), "[[", 1)
+rownames(snp_mat) <- sapply(strsplit(rownames(snp_mat), delim), "[[", 1)
+colnames(snp_mat) <- sapply(strsplit(colnames(snp_mat), delim), "[[", 1)
 
 # order snp matrix by vertical order of tip labels
-snp.mat <- snp.mat[c(mpt.ord),c(mpt.ord)]
+snp_mat <- snp_mat[c(mpt.ord),c(mpt.ord)]
 
 ```
 
@@ -222,7 +227,7 @@ ymin <- min(gtree$data$y) - 1
 ymax <- max(gtree$data$y) + 1
 
 # main tree plotting function
-gheatmap(gtree, snp.mat,
+gheatmap(gtree, snp_mat,
     width = heatmap_width,
     offset = tree_offset,
     cell_labels = TRUE,
@@ -234,7 +239,7 @@ gheatmap(gtree, snp.mat,
     rownames_offset_x = row_offset) +
 
 # set heatmap colourbar colors and limits
-scale_fill_viridis(limits = c(1,(max(snp.mat)+1)),
+scale_fill_viridis(limits = c(1,(max(snp_mat)+1)),
     na.value = "white",
     name = "SNPs",
     guide = "colourbar") +
