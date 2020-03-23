@@ -124,6 +124,7 @@ The analysis of `r species` (n = `r num.isolates`) has been completed. These res
 ```{r ar-table, echo=FALSE, message=FALSE, warning=FALSE}
 
 if (ar_tsv != "none") {
+    sapply(strsplit(ar_tsv$Sample, "-"), "[[", 1)
     ar_genes <- c("blaOXA","blaKPC","blaVIM","blaIMP","blaNDM")
     ar_df <- dplyr::filter(ar_df, grepl(paste(ar_genes, collapse="|"), Gene))
     kable(ar_df) %>%
