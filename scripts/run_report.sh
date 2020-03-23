@@ -11,7 +11,8 @@ usage() {
   echo "      -p      SNP matrix file name: defaults to snp_distance_matrix.tsv"
   echo "      -c      Core-geneome newick tree file: defaults to core_genome_tree.tree"
   echo "      -o      Output path: defaults to /data/"
-  echo "      -a      Output of abricate: defaults to none"
+  echo "      -a      List of AR genes in tsv format: defaults to none"
+  echo "      -m      Binary presence/absence matrix of AR genes: defaults to none"
 }
 
 species = ""
@@ -19,6 +20,7 @@ snp_table = "snp_distance_matrix.tsv"
 nwk_tree = "core_genome_tree.tree"
 output_path = "/data/"
 ar_tsv = "none"
+ar_mat = "none"
 
 while (( "$#" )); do
   case "$1" in
@@ -38,7 +40,11 @@ while (( "$#" )); do
       output_path = $2
       shift 2
       ;;
-    -a|--anitbiotic-resistance)
+    -a|--ar-genes)
+      ar_tsv = $2
+      shift 2
+      ;;
+    -m|--ar-matrix)
       ar_tsv = $2
       shift 2
       ;;
@@ -54,7 +60,7 @@ while (( "$#" )); do
   esac
 done
 
-if [ -z $species ] || [ -z $n_isolates ]; then
+if [ -z $species ]; then
   usage
   exit 1
 fi
