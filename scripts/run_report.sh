@@ -67,4 +67,4 @@ fi
 
 cp -u /scripts/analysis_report.Rmd $output_path
 
-Rscript /scripts/render_report.R "$species" "$snp_table" "$nwk_tree" "$output_path" "$ar_tsv"
+Rscript /scripts/render_report.R "$species" "$snp_table" "$nwk_tree" "$output_path" "$ar_tsv" "$ar_mat"
