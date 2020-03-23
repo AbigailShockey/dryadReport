@@ -126,6 +126,7 @@ The analysis of `r species` (n = `r num.isolates`) has been completed. These res
 
 ### Antibiotic Resistance
 
+Key antibiotic resistance genes identified in each sample are shown in the table below. Identity and coverage compared to the reference gene is shown in the right two columns.
 
 ```{r ar-table, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -137,6 +138,8 @@ if (is.list(ar_tsv)) {
 }
 
 ```
+
+The presence (grey) or absence (white) of antibiotic resistance genes identifiedin each sample is shown in the matrix below. A dendrogram based on clustering of the presence of antibiotic resitance genes is shown on the right. Isolates that cluster close together have similar antibiotic resistance profiles.
 
 ```{r ar-heatmap, echo=FALSE, message=FALSE, warning=FALSE}
 
