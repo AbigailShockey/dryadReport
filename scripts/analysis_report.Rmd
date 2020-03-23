@@ -121,40 +121,46 @@ tip_font_size <- 2
 The analysis of `r species` (n = `r num.isolates`) has been completed. These results must always be used in conjunction with epidemiological data when determining if isolates are epidemiologically linked. This analysis should not be used as a replacement for a thorough epidemiological investigation.
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r ar-table, echo=FALSE, message=FALSE, warning=FALSE}
 
-if (ar != "none"){
+if (ar_tsv != "none") {
     ar_genes <- c("blaOXA","blaKPC","blaVIM","blaIMP","blaNDM")
     ar_df <- dplyr::filter(ar_df, grepl(paste(ar_genes, collapse="|"), Gene))
     kable(ar_df) %>%
       kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
 }
 
-# len <- length(ar_mat$V2)
-# ar <- unname(unlist(ar_mat[1,]))
-# ar_mat <- ar_mat[2:len,]
-# samples <- row.names(ar_mat)
-# ar_mat <- ar_mata.frame(sapply(ar_mat[,], as.numeric))
-# 
-# colnames(ar_mat) <- ar
-# rownames(ar_mat) <- samples
-# rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat), "-"), "[[", 1)
-# 
-# superheat(ar_mat,
-#           pretty.order.rows = TRUE,
-#           pretty.order.cols = TRUE,
-#           row.dendrogram = T,
-#           scale = F,
-#           heat.pal.values = c(0, 1),
-#           heat.lim = c(0,1),
-#           bottom.label.text.angle = 90,
-#           bottom.label.text.alignment = "right",
-#           left.label.text.alignment = "right",
-#           left.label.col = "white",
-#           bottom.label.col = "white",
-#           heat.pal = c("white", "white",
-#                               "grey"),
-#           legend = FALSE)
+```
+
+```{r ar-heatmap, echo=FALSE, message=FALSE, warning=FALSE}
+
+if (ar_mat != "none") {
+  len <- length(ar_mat$V2)
+  ar <- unname(unlist(ar_mat[1,]))
+  ar_mat <- ar_mat[2:len,]
+  samples <- row.names(ar_mat)
+  ar_mat <- ar_mata.frame(sapply(ar_mat[,], as.numeric))
+
+  colnames(ar_mat) <- ar
+  rownames(ar_mat) <- samples
+  rownames(ar_mat) <- sapply(strsplit(rownames(ar_mat), "-"), "[[", 1)
+
+  superheat(ar_mat,
+            pretty.order.rows = TRUE,
+            pretty.order.cols = TRUE,
+            row.dendrogram = T,
+            scale = F,
+            heat.pal.values = c(0, 1),
+            heat.lim = c(0,1),
+            bottom.label.text.angle = 90,
+            bottom.label.text.alignment = "right",
+            left.label.text.alignment = "right",
+            left.label.col = "white",
+            bottom.label.col = "white",
+            heat.pal = c("white", "white",
+                                "grey"),
+            legend = FALSE)
+}
 
 ```
 
