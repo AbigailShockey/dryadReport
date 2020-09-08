@@ -1,5 +1,45 @@
 ---
-output: html_document
+output:
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+    - \usepackage{fancyhdr}
+    - \usepackage{fontspec}
+    - \usepackage{xcolor}
+    - \geometry{left=0.5in,right=0.5in}
+mainfont: Roboto
+sansfont: Roboto
+urlcolor: badgerred
+---
+<!-- define color and adjust lengths for header and footer-->
+\definecolor{badgerred}{RGB}{197,5,12}
+\addtolength{\headheight}{3.0cm}
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\footskip}{-0.225in}
+
+<!-- % setup header -->
+\pagestyle{fancy}
+\fancyhf{}
+
+<!-- header content -->
+\fancyhead[L]{\raisebox{-0.25\height}{\includegraphics[height=2.5cm]{/assets/wslh_header.png}}}
+\fancyhead[R]{\Huge Genomic Clustering Report\\
+\Large `r paste(Sys.Date())`}
+
+<!-- create red header line -->
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
+
+<!-- footer content -->
+\fancyfoot[C]{For research use only, not for clinical use.}
+\fancyfoot[R]{\thepage}
+
+<!-- create red footer line -->
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\footrule}{\hbox to\headwidth{%
+    \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
+ 
 ---
 ```{r include=FALSE}
 
