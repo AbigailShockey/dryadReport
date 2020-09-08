@@ -39,8 +39,7 @@ urlcolor: badgerred
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\footrule}{\hbox to\headwidth{%
     \color{badgerred}\leaders\hrule height \headrulewidth\hfill}}
- 
----
+
 ```{r include=FALSE}
 
 ## Libraries
